@@ -142,3 +142,27 @@ where Death.continent is not null
 
 Select *
 from PercebtPopulationVaccinated
+
+--2
+
+ select location, SUM(cast(new_deaths as int)) as TotalDeathCount
+from PortfolioProject..CovidDeaths
+--Where location like '%states%'
+Where continent is null 
+and location  not in ('world', 'European Union', 'International')
+Group by location
+order by TotalDeathCount desc
+
+--3
+
+select location, population, MAX(total_cases) as HighestInfectionCount, Max((total_cases/population))*100 as PercentPopulationInfected
+from PortfolioProject..CovidDeaths
+Group by location, population
+order by PercentPopulationInfected desc
+
+--4
+
+select location, Population, date, MAX(total_cases) as HighestInfectionCount, Max((total_cases/population))*100 as PercentPopulationInfected
+from PortfolioProject..CovidDeaths
+Group by location, Population, date
+order by PercentPopulationInfected desc
